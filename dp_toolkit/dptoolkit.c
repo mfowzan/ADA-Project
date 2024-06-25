@@ -1,4 +1,3 @@
-// dptoolkit.c
 #include <stdio.h>
 #include <stdlib.h>
 #include "dptoolkit.h"
@@ -7,6 +6,11 @@
 int *init_fibonacci_memo(int n)
 {
     int *memo = (int *)malloc((n + 1) * sizeof(int));
+    if (memo == NULL)
+    {
+        perror("Failed to allocate memory for Fibonacci memoization");
+        exit(EXIT_FAILURE);
+    }
     for (int i = 0; i <= n; ++i)
     {
         memo[i] = -1;
@@ -18,6 +22,11 @@ int *init_fibonacci_memo(int n)
 Fibonacci *create_fibonacci(int n)
 {
     Fibonacci *fib = (Fibonacci *)malloc(sizeof(Fibonacci));
+    if (fib == NULL)
+    {
+        perror("Failed to allocate memory for Fibonacci struct");
+        exit(EXIT_FAILURE);
+    }
     fib->n = n;
     fib->memo = init_fibonacci_memo(n);
     return fib;
@@ -58,9 +67,19 @@ int fibonacci_solve(Fibonacci *fib)
 int **init_knapsack_memo(int n, int capacity)
 {
     int **memo = (int **)malloc((n + 1) * sizeof(int *));
+    if (memo == NULL)
+    {
+        perror("Failed to allocate memory for Knapsack memoization");
+        exit(EXIT_FAILURE);
+    }
     for (int i = 0; i <= n; ++i)
     {
         memo[i] = (int *)malloc((capacity + 1) * sizeof(int));
+        if (memo[i] == NULL)
+        {
+            perror("Failed to allocate memory for Knapsack memoization row");
+            exit(EXIT_FAILURE);
+        }
         for (int j = 0; j <= capacity; ++j)
         {
             memo[i][j] = -1;
@@ -73,6 +92,11 @@ int **init_knapsack_memo(int n, int capacity)
 Knapsack *create_knapsack(int *weights, int *values, int n, int capacity)
 {
     Knapsack *knapsack = (Knapsack *)malloc(sizeof(Knapsack));
+    if (knapsack == NULL)
+    {
+        perror("Failed to allocate memory for Knapsack struct");
+        exit(EXIT_FAILURE);
+    }
     knapsack->weights = weights;
     knapsack->values = values;
     knapsack->n = n;
@@ -126,6 +150,11 @@ int knapsack_solve(Knapsack *knapsack)
 DPProblem *create_dp_problem(void *instance, int (*solve)(void *instance))
 {
     DPProblem *problem = (DPProblem *)malloc(sizeof(DPProblem));
+    if (problem == NULL)
+    {
+        perror("Failed to allocate memory for DPProblem struct");
+        exit(EXIT_FAILURE);
+    }
     problem->instance = instance;
     problem->solve = solve;
     return problem;
